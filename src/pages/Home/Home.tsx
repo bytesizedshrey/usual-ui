@@ -1,5 +1,6 @@
 import ThreeDCardDemo from "../../components/3d-card-demo";
 import MusicPlayerCardDemo from "../../components/music-player-card-demo";
+import MusicPlayer3DCardDemo from "../../components/music-player-3d-card-demo";
 import Hero from "../../components/Hero";
 import { Reveal } from "../../components/motion";
 import { StructureFlowCollection } from "@designcodeio/threeui";
@@ -10,12 +11,15 @@ const Home = () => {
     <main>
       <Hero />
       <section className="w-full bg-[#030304] px-6 py-12" id="showcase">
-        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-start justify-items-center gap-8 lg:grid-cols-2">
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-start justify-items-center gap-8 lg:grid-cols-3">
           <Reveal>
             <ThreeDCardDemo />
           </Reveal>
           <Reveal delay={0.08}>
             <MusicPlayerCardDemo />
+          </Reveal>
+          <Reveal delay={0.16}>
+            <MusicPlayer3DCardDemo />
           </Reveal>
         </div>
       </section>

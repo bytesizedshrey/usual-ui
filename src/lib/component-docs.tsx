@@ -1,3 +1,5 @@
+import MusicPlayer3DDemo from "@/components/MusicPlayer3DDemo";
+
 import type { ReactNode } from "react";
 import musicPlayerSource from "@/components/ui/music-player.tsx?raw";
 import musicPlayerDemoSource from "@/components/MusicPlayerDemo/MusicPlayerDemo.tsx?raw";
@@ -334,5 +336,117 @@ export default function Demo() {
     title: "ReceiptPrinter.tsx",
     intro: "The full implementation of the Receipt Printer components.",
     code: receiptPrinterSource,
+  },
+};
+
+
+
+const musicPlayer3DSource = `"use client";
+
+import React, { Suspense, useRef } from "react";
+import { Canvas } from "@react-three/fiber";
+import { useGLTF, OrbitControls, Environment, ContactShadows } from "@react-three/drei";
+import * as THREE from "three";
+import { cn } from "@/lib/utils";
+
+useGLTF.preload("/models/music-player-3d.glb");
+
+export function MusicPlayer3DModel(props: any) {
+  const { scene } = useGLTF("/models/music-player-3d.glb");
+  const group = useRef<THREE.Group>(null);
+  
+  return (
+    <group ref={group} {...props} dispose={null}>
+      <primitive object={scene} />
+    </group>
+  );
+}
+
+export interface MusicPlayer3DProps {
+  className?: string;
+  autoRotate?: boolean;
+}
+
+export function MusicPlayer3D({ className, autoRotate = true }: MusicPlayer3DProps) {
+  return (
+    <div className={cn("relative w-full h-full min-h-[400px]", className)}>
+      <Canvas camera={{ position: [0, 1, 4], fov: 45 }}>
+        <ambientLight intensity={0.5} />
+        <spotLight position={[5, 5, 5]} angle={0.25} penumbra={1} intensity={1} castShadow />
+        <Suspense fallback={null}>
+          <MusicPlayer3DModel position={[0, -0.5, 0]} />
+          <Environment preset="city" />
+          <ContactShadows position={[0, -0.5, 0]} opacity={0.5} scale={5} blur={1.5} far={4} />
+        </Suspense>
+        <OrbitControls enableZoom={false} autoRotate={autoRotate} autoRotateSpeed={2} />
+      </Canvas>
+    </div>
+  );
+}
+`;
+
+const musicPlayer3DDemoSource = `"use client";
+
+import { MusicPlayer3D } from "@/components/MusicPlayer3D";
+
+export function MusicPlayer3DDemo() {
+  return (
+    <div className="flex w-full items-center justify-center p-8 aspect-[4/3] md:aspect-[5/3]">
+      <MusicPlayer3D className="w-full h-full max-w-2xl" />
+    </div>
+  );
+}
+
+export default MusicPlayer3DDemo;
+`;
+
+export const musicPlayer3DDoc: ComponentDoc = {
+  slug: "music-player-3d",
+  name: "Music Player 3D",
+  filePath: "src/components/MusicPlayer3D/MusicPlayer3D.tsx",
+  description: (
+    <>
+      A 3D rendering of the approved Music Player model using React Three Fiber.
+    </>
+  ),
+  install: {
+    cliIntro: "Install the required dependencies:",
+    cliCommands: npmAdd("three @react-three/fiber @react-three/drei"),
+    manualIntro: "Add the required dependencies and copy the source file into your project:",
+    manualText: `Copy the following files into your project:
+- src/components/MusicPlayer3D/MusicPlayer3D.tsx
+- src/lib/utils.ts (for the cn utility)
+
+You will also need the 3D model in your public directory at /models/music-player-3d.glb`,
+  },
+  demoUsage: {
+    description: "The component renders the 3D model inside a Canvas.",
+    code: `import { MusicPlayer3D } from "@/components/MusicPlayer3D";
+
+export default function Demo() {
+  return <MusicPlayer3D />;
+}`,
+  },
+  exampleUsage: {
+    code: musicPlayer3DDemoSource,
+    preview: <MusicPlayer3DDemo />,
+    previewMinHeight: "aspect-[4/3] md:aspect-[5/3]",
+  },
+  propGroups: [
+    {
+      heading: "MusicPlayer3D",
+      rows: [
+        {
+          name: "className",
+          type: "string",
+          description: "Additional CSS classes to apply to the root element.",
+        },
+      ],
+    },
+  ],
+  source: {
+    title: "MusicPlayer3D.tsx",
+    intro: "The full implementation of the 3D Music Player component.",
+    code: musicPlayer3DSource,
   },
 };
