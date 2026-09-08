@@ -11,7 +11,7 @@ import {
 import "./motion-scroll-word-reveal-utils/index.css"
 
 const TEXT =
-  "Animation should never make you wait. It should reveal the next idea at exactly the moment you are ready to read it."
+  "Good UI should never slow you down. The usual kind does. This one gives your next idea a place to begin."
 const REST_OPACITY = 0.04
 const REVEAL_SPAN = 0.8
 const WORD_WINDOW = 0.2
