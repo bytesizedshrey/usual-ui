@@ -1,0 +1,103 @@
+/*
+ * Scoped styles for the ScrollWordReveal component.
+ * Every rule is namespaced under `.scroll-word-reveal*` so nothing here
+ * leaks into the rest of the site.
+ *
+ * `.scroll-word-reveal-frame` is the scroll container that drives
+ * `useScroll({ container, target })`: it sits in normal document flow at
+ * one viewport tall, and its child `.scroll-word-reveal` section is taller
+ * than that, which is what makes the frame internally scrollable in the
+ * first place. `.scroll-word-reveal__stage` is sticky-pinned to the top of
+ * that frame while the section scrolls underneath it, which is what gives
+ * the reveal room to play out. Overscroll is left at its default (not
+ * `contain`), so once the frame's own scroll range is exhausted, wheel/touch
+ * input chains straight into the page's normal scroll — no trapped scroll.
+ */
+
+.scroll-word-reveal-frame {
+  position: relative;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.scroll-word-reveal {
+  position: relative;
+  min-height: 260vh;
+  pointer-events: auto;
+}
+
+.scroll-word-reveal__stage {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.5rem;
+}
+
+.scroll-word-reveal__layout {
+  display: flex;
+  width: 100%;
+  max-width: 56rem;
+  align-items: flex-start;
+  gap: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.scroll-word-reveal__progress {
+  position: relative;
+  top: 0.5rem;
+  height: clamp(140px, 26vh, 220px);
+  width: 2px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+.scroll-word-reveal__progress span {
+  position: absolute;
+  inset: 0;
+  transform-origin: top;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: inherit;
+}
+
+.scroll-word-reveal__content {
+  min-width: 0;
+  flex: 1;
+  text-align: left;
+}
+
+.scroll-word-reveal__kicker {
+  margin: 0 0 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.scroll-word-reveal__heading {
+  margin: 0;
+  font-size: clamp(1.75rem, 4.2vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+@media (max-width: 640px) {
+  .scroll-word-reveal {
+    min-height: 220vh;
+  }
+
+  .scroll-word-reveal__layout {
+    gap: 1rem;
+  }
+
+  .scroll-word-reveal__progress {
+    height: clamp(110px, 22vh, 170px);
+  }
+}
