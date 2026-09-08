@@ -22,7 +22,7 @@
 
 .scroll-word-reveal {
   position: relative;
-  min-height: 260vh;
+  min-height: 160vh;
   pointer-events: auto;
 }
 
@@ -90,7 +90,7 @@
 
 @media (max-width: 640px) {
   .scroll-word-reveal {
-    min-height: 220vh;
+    min-height: 140vh;
   }
 
   .scroll-word-reveal__layout {
