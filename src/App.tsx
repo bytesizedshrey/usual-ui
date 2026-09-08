@@ -4,7 +4,6 @@ import ReceiptPrinterSource from "./pages/ReceiptPrinterSource";
 import MusicPlayer3DSource from "./pages/MusicPlayer3DSource";
 import NavigationMapSource from "./pages/NavigationMapSource";
 
-import MusicPlayerSource from "./pages/MusicPlayerSource";
 
 function App() {
   return (
@@ -13,10 +12,6 @@ function App() {
       <Route
         element={<ReceiptPrinterSource />}
         path="/components/receipt-printer"
-      />
-      <Route
-        element={<MusicPlayerSource />}
-        path="/components/music-player"
       />
       <Route
         element={<MusicPlayer3DSource />}

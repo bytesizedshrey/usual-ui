@@ -1,5 +1,4 @@
 import ThreeDCardDemo from "../../components/3d-card-demo";
-import MusicPlayerCardDemo from "../../components/music-player-card-demo";
 import MusicPlayer3DCardDemo from "../../components/music-player-3d-card-demo";
 import NavigationMapCardDemo from "../../components/navigation-map-card-demo";
 import Hero from "../../components/Hero";
@@ -15,9 +14,6 @@ const Home = () => {
         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-start justify-items-center gap-8 lg:grid-cols-3">
           <Reveal>
             <ThreeDCardDemo />
-          </Reveal>
-          <Reveal delay={0.08}>
-            <MusicPlayerCardDemo />
           </Reveal>
           <Reveal delay={0.16}>
             <MusicPlayer3DCardDemo />
