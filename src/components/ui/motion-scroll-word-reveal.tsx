@@ -60,7 +60,7 @@ export function ScrollWordReveal() {
   const reducedMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: targetRef,
-    offset: ["start 60%", "end end"],
+    offset: ["start 80%", "end end"],
   })
   const words = TEXT.split(" ")
 

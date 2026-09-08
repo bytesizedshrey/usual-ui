@@ -46,10 +46,9 @@ const Hero = () => {
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: isMobile ? "+=100%" : "+=130%",
+            end: isMobile ? "+=70%" : "+=130%",
             scrub: 1,
             pin: true,
-            pinSpacing: false,
             anticipatePin: 1,
             invalidateOnRefresh: true,
           },
