@@ -33,11 +33,14 @@ export default function MusicPlayer3DCardDemo() {
           <MusicPlayer3DDemo />
         </CardItem>
         <div className="mt-4 flex w-full items-center justify-center">
-          <span ref={sourceAnchorRef} className="inline-block">
+          <span
+            ref={sourceAnchorRef}
+            className="inline-block"
+            onClick={() => setSourceOpen((value) => !value)}
+          >
             <CardItem
               as="button"
               className="group inline-flex h-auto items-center gap-1.5 rounded-full border border-white/[0.16] bg-[#1D1D1A] px-3 py-1.5 text-xs font-medium text-stone-200 transition-colors hover:border-white/30"
-              onClick={() => setSourceOpen((value) => !value)}
               translateZ={20}
               type="button"
             >

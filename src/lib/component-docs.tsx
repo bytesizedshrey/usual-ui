@@ -1,6 +1,9 @@
 import MusicPlayer3DDemo from "@/components/MusicPlayer3DDemo";
 import musicPlayer3DSource from "@/components/MusicPlayer3D/MusicPlayer3D.tsx?raw";
 import musicPlayer3DDemoSource from "@/components/MusicPlayer3DDemo/MusicPlayer3DDemo.tsx?raw";
+import NavigationMapDemo from "@/components/NavigationMapDemo";
+import navigationMapSource from "@/components/NavigationMap/NavigationMap.tsx?raw";
+import navigationMapDemoSource from "@/components/NavigationMapDemo/NavigationMapDemo.tsx?raw";
 
 import type { ReactNode } from "react";
 import musicPlayerSource from "@/components/ui/music-player.tsx?raw";
@@ -373,7 +376,7 @@ export default function Demo() {
   exampleUsage: {
     code: musicPlayer3DDemoSource,
     preview: <MusicPlayer3DDemo />,
-    previewMinHeight: "aspect-[4/3] md:aspect-[5/3]",
+    previewMinHeight: "min-h-[400px]",
   },
   propGroups: [
     {
@@ -391,5 +394,159 @@ export default function Demo() {
     title: "MusicPlayer3D.tsx",
     intro: "The full implementation of the 3D Music Player component.",
     code: musicPlayer3DSource,
+  },
+};
+
+export const navigationMapDoc: ComponentDoc = {
+  slug: "navigation-map",
+  name: "Navigation Map",
+  filePath: "src/components/NavigationMap/NavigationMap.tsx",
+  description: (
+    <>
+      A compact, skeuomorphic in-car navigation widget — a dark procedural
+      map, a live route with a pulsing vehicle marker, a speed-limit sign,
+      and a bottom HUD bar with turn, distance, and trip readouts.
+    </>
+  ),
+  secondaryNote: (
+    <>
+      The map surface is procedurally generated (a seeded layout of roads,
+      buildings, parks, and water) rather than tile-based — it&apos;s a
+      visual surface for the HUD, not a real map renderer.
+    </>
+  ),
+  install: {
+    cliIntro: "No extra dependencies — copy the component into your project:",
+    cliCommands: npmAdd("clsx tailwind-merge"),
+    manualIntro: "Add the required dependency and copy the source file into your project:",
+    manualText: `Copy the following files into your project:
+- src/components/NavigationMap/NavigationMap.tsx
+- src/lib/utils.ts (for the cn utility)`,
+  },
+  demoUsage: {
+    description: "The component is a single, self-contained, prop-driven widget.",
+    code: `import { NavigationMap } from "@/components/NavigationMap";
+
+export default function Demo() {
+  return (
+    <NavigationMap
+      distance="900 m"
+      streetName="Ness Ave"
+      turnDirection="right"
+      speedLimit={55}
+      speedUnit="MPH"
+      destination="1408 Ness Ave"
+    />
+  );
+}`,
+  },
+  exampleUsage: {
+    code: navigationMapDemoSource,
+    preview: <NavigationMapDemo />,
+    previewMinHeight: "min-h-[360px]",
+  },
+  propGroups: [
+    {
+      heading: "NavigationMap",
+      rows: [
+        {
+          name: "distance",
+          type: "string",
+          defaultVal: '"900 m"',
+          description: "Distance to the next turn. The leading number and trailing unit are split and styled separately.",
+        },
+        {
+          name: "streetName",
+          type: "string",
+          defaultVal: '"Ness Ave"',
+          description: "Street the next turn is on.",
+        },
+        {
+          name: "speedLimit",
+          type: "number",
+          defaultVal: "55",
+          description: "Posted speed limit shown on the sign.",
+        },
+        {
+          name: "speedUnit",
+          type: '"MPH" | "KM/H"',
+          defaultVal: '"MPH"',
+          description: "Speed unit. Not shown on the sign face in this compact widget (matches the finalized design); exposed via a data-speed-unit attribute.",
+        },
+        {
+          name: "turnDirection",
+          type: '"left" | "slight-left" | "straight" | "slight-right" | "right" | "sharp-right" | "u-turn" | "roundabout"',
+          defaultVal: '"right"',
+          description: "Which glyph the turn-instruction icon renders.",
+        },
+        {
+          name: "routeColor",
+          type: "string",
+          defaultVal: '"#c8382c"',
+          description: "Route line color (hex).",
+        },
+        {
+          name: "mapTheme",
+          type: '"graphite" | "midnight" | "ember" | "teal"',
+          defaultVal: '"graphite"',
+          description: "Subtle color wash applied over the map surface (soft-light blend, low opacity).",
+        },
+        {
+          name: "destination",
+          type: "string",
+          defaultVal: '"1408 Ness Ave"',
+          description: "Destination address shown in the top-left pill.",
+        },
+        {
+          name: "destinationLabel",
+          type: "string",
+          defaultVal: '"Destination"',
+          description: "Label above the destination value.",
+        },
+        {
+          name: "arrivalTime",
+          type: "string",
+          defaultVal: '"4:38"',
+          description: "Estimated arrival time, shown in the HUD bar.",
+        },
+        {
+          name: "remaining",
+          type: "string",
+          defaultVal: '"8.2 km"',
+          description: "Remaining distance/time, shown in the HUD bar. Hidden below 355px wide.",
+        },
+        {
+          name: "range",
+          type: "string",
+          defaultVal: '"214 km"',
+          description: "Remaining vehicle range, shown in the HUD bar. Hidden below 445px wide.",
+        },
+        {
+          name: "currentLocation",
+          type: "{ lat: number; lng: number }",
+          defaultVal: "{ lat: 37.7793, lng: -122.4193 }",
+          description: "Current vehicle coordinates. The map is procedurally generated, not tile-based, so this is a passthrough for callers wiring the widget to a real geo source.",
+        },
+        {
+          name: "className",
+          type: "string",
+          description: "Additional CSS classes to apply to the root element.",
+        },
+      ],
+    },
+  ],
+  propsFootnote: (
+    <>
+      Responsive by container width (via a <code>ResizeObserver</code> on the
+      map surface, not viewport media queries): the Range readout hides
+      below 445px, the full readout group and divider hide below 355px, and
+      the speed sign shrinks and repositions — the widget never clips or
+      scrolls horizontally.
+    </>
+  ),
+  source: {
+    title: "NavigationMap.tsx",
+    intro: "The full implementation of the Navigation Map widget.",
+    code: navigationMapSource,
   },
 };

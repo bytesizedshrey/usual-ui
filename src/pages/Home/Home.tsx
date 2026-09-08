@@ -1,6 +1,7 @@
 import ThreeDCardDemo from "../../components/3d-card-demo";
 import MusicPlayerCardDemo from "../../components/music-player-card-demo";
 import MusicPlayer3DCardDemo from "../../components/music-player-3d-card-demo";
+import NavigationMapCardDemo from "../../components/navigation-map-card-demo";
 import Hero from "../../components/Hero";
 import { Reveal } from "../../components/motion";
 import { StructureFlowCollection } from "@designcodeio/threeui";
@@ -20,6 +21,9 @@ const Home = () => {
           </Reveal>
           <Reveal delay={0.16}>
             <MusicPlayer3DCardDemo />
+          </Reveal>
+          <Reveal delay={0.24}>
+            <NavigationMapCardDemo />
           </Reveal>
         </div>
       </section>

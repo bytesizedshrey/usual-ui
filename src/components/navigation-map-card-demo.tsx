@@ -2,11 +2,11 @@
 
 import { useRef, useState } from "react";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
-import MusicPlayerDemo from "@/components/MusicPlayerDemo";
+import NavigationMapDemo from "@/components/NavigationMapDemo";
 import SourceCodePopover from "@/components/SourceCodePopover";
-import { musicPlayerDoc } from "@/lib/component-docs";
+import { navigationMapDoc } from "@/lib/component-docs";
 
-export default function MusicPlayerCardDemo() {
+export default function NavigationMapCardDemo() {
   const [sourceOpen, setSourceOpen] = useState(false);
   const sourceAnchorRef = useRef<HTMLSpanElement>(null);
 
@@ -17,21 +17,20 @@ export default function MusicPlayerCardDemo() {
           translateZ="50"
           className="text-base font-bold text-neutral-600 dark:text-white"
         >
-          Music Player
+          Navigation Map
         </CardItem>
         <CardItem
           as="p"
           translateZ="60"
           className="mt-1 max-w-xs text-xs text-neutral-500 dark:text-neutral-300"
         >
-          A collapsible, glassmorphic music player with a floating avatar,
-          animated equalizer, and a seekable progress bar.
+          A compact skeuomorphic in-car navigation widget with a procedural map, live route, and tactile controls.
         </CardItem>
         <CardItem
           translateZ="100"
           className="mt-3 flex w-full items-center justify-center pt-2"
         >
-          <MusicPlayerDemo />
+          <NavigationMapDemo />
         </CardItem>
         <div className="mt-4 flex w-full items-center justify-center">
           <span
@@ -55,7 +54,7 @@ export default function MusicPlayerCardDemo() {
 
       <SourceCodePopover
         anchorRef={sourceAnchorRef}
-        doc={musicPlayerDoc}
+        doc={navigationMapDoc}
         onOpenChange={setSourceOpen}
         open={sourceOpen}
       />
