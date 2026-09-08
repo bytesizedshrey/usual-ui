@@ -199,7 +199,7 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
 
     const settle = () => {
       gsap.set(glyphs, { y: 0 });
-      gsap.set(layer, { opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0%)' });
+      gsap.set(layer, { opacity: 1, scale: 1, clipPath: 'none' });
     };
 
     const rest = () => {
@@ -221,7 +221,7 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
     const play = () => {
       tweenRef.current?.kill();
       if (reveal === 'rise') {
-        gsap.set(layer, { opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0%)' });
+        gsap.set(layer, { opacity: 1, scale: 1, clipPath: 'none' });
         tweenRef.current = gsap.fromTo(
           glyphs,
           { y: riseDistance() },
