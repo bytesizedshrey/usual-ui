@@ -56,7 +56,6 @@ function Word({
 }
 
 export function ScrollWordReveal() {
-  const containerRef = useRef<HTMLDivElement>(null)
   const targetRef = useRef<HTMLElement>(null)
   const reducedMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
