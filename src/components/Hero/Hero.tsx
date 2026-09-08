@@ -144,8 +144,8 @@ const Hero = () => {
           ref={subtitleRef}
           className="max-w-xl text-description text-white/60"
         >
-          usual-ui is a reusable component library — copy the source, ship it
-          as your own, no black boxes.
+          usual-ui is a reusable component library. Copy the source. Ship it.
+          Make it yours.
         </p>
       </div>
     </section>
