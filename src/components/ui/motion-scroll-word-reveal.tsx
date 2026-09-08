@@ -12,7 +12,7 @@ import "./motion-scroll-word-reveal-utils/index.css"
 
 const TEXT =
   "Animation should never make you wait. It should reveal the next idea at exactly the moment you are ready to read it."
-const REST_OPACITY = 0.15
+const REST_OPACITY = 0.04
 const REVEAL_SPAN = 0.8
 const WORD_WINDOW = 0.2
 
