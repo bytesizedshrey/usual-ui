@@ -50,16 +50,23 @@ function ComponentDocsPage({ doc, showBackLink = true }: ComponentDocsPageProps)
       {/* 2. INSTALLATION */}
       <section>
         <h2 className="text-xl font-medium tracking-tight mb-6 text-white">Installation</h2>
-        <Tabs tabs={["CLI", "Manual"]}>
-          <div className="pt-2">
-            <p className="text-sm text-white/70 mb-4">{doc.install.cliIntro}</p>
-            <PackageManagerTabs commands={doc.install.cliCommands} />
-          </div>
+        {doc.install.cliCommands ? (
+          <Tabs tabs={["CLI", "Manual"]}>
+            <div className="pt-2">
+              <p className="text-sm text-white/70 mb-4">{doc.install.cliIntro}</p>
+              <PackageManagerTabs commands={doc.install.cliCommands} />
+            </div>
+            <div className="pt-2">
+              <p className="text-sm text-white/70 mb-4">{doc.install.manualIntro}</p>
+              <CodeBlock code={doc.install.manualText} language="text" />
+            </div>
+          </Tabs>
+        ) : (
           <div className="pt-2">
             <p className="text-sm text-white/70 mb-4">{doc.install.manualIntro}</p>
             <CodeBlock code={doc.install.manualText} language="text" />
           </div>
-        </Tabs>
+        )}
       </section>
 
       {/* 3. DEMO USAGE */}

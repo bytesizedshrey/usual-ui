@@ -4,6 +4,13 @@ import musicPlayer3DDemoSource from "@/components/MusicPlayer3DDemo/MusicPlayer3
 import NavigationMapDemo from "@/components/NavigationMapDemo";
 import navigationMapSource from "@/components/NavigationMap/NavigationMap.tsx?raw";
 import navigationMapDemoSource from "@/components/NavigationMapDemo/NavigationMapDemo.tsx?raw";
+import VintageKeyboardDemo from "@/components/VintageKeyboardDemo";
+import vintageKeyboardSource from "@/components/VintageKeyboard/VintageKeyboard.tsx?raw";
+import vintageKeyboardDemoSource from "@/components/VintageKeyboardDemo/VintageKeyboardDemo.tsx?raw";
+import SketchbookDemo from "@/components/SketchbookDemo";
+import sketchbookSource from "@/components/Sketchbook/Sketchbook.tsx?raw";
+import sketchbookDocSource from "@/components/Sketchbook/sketchbookDoc.ts?raw";
+import sketchbookDemoSource from "@/components/SketchbookDemo/SketchbookDemo.tsx?raw";
 
 import type { ReactNode } from "react";
 import receiptPrinterSource from "@/components/ReceiptPrinter/ReceiptPrinter.tsx?raw";
@@ -33,8 +40,8 @@ export interface ComponentDoc {
   description: ReactNode;
   secondaryNote?: ReactNode;
   install: {
-    cliIntro: string;
-    cliCommands: Record<PackageManager, string>;
+    cliIntro?: string;
+    cliCommands?: Record<PackageManager, string>;
     manualIntro: string;
     manualText: string;
   };
@@ -378,5 +385,239 @@ export default function Demo() {
     title: "NavigationMap.tsx",
     intro: "The full implementation of the Navigation Map widget.",
     code: navigationMapSource,
+  },
+};
+
+export const vintageKeyboardDoc: ComponentDoc = {
+  slug: "vintage-keyboard",
+  name: "Vintage Keyboard",
+  filePath: "src/components/VintageKeyboard/VintageKeyboard.tsx",
+  description: (
+    <>
+      A high-fidelity interactive mechanical keyboard — modern graphite,
+      ivory, or olive shells with a skeuomorphic keycap treatment, real
+      keyboard input passthrough, procedural mechanical click sound, and
+      haptic feedback on press.
+    </>
+  ),
+  secondaryNote: (
+    <>
+      Sound uses the Web Audio API and haptics use the Vibration API; both
+      degrade gracefully (silently no-op) on browsers or devices that
+      don&apos;t support them. Keycap labels are set in <code>"Geist"</code>{" "}
+      with a <code>ui-sans-serif, sans-serif</code> fallback — self-hosting
+      Geist is optional, the keyboard renders fine on your system sans-serif
+      if you don&apos;t have it.
+    </>
+  ),
+  install: {
+    cliIntro:
+      "usual-ui components are copy-paste source, not an installable package — grab the code from the Source Code panel below and paste these two files into your own project:",
+    cliCommands: {
+      npm: "# No package install needed beyond react/react-dom, which almost\n# every React project already has.\n# Open \"Source Code\" below, then copy the files listed under \"Manual\".",
+      pnpm: "# No package install needed beyond react/react-dom, which almost\n# every React project already has.\n# Open \"Source Code\" below, then copy the files listed under \"Manual\".",
+      yarn: "# No package install needed beyond react/react-dom, which almost\n# every React project already has.\n# Open \"Source Code\" below, then copy the files listed under \"Manual\".",
+      bun: "# No package install needed beyond react/react-dom, which almost\n# every React project already has.\n# Open \"Source Code\" below, then copy the files listed under \"Manual\".",
+    },
+    manualIntro: "Copy these files into your own project — both are required:",
+    manualText: `components/VintageKeyboard/VintageKeyboard.tsx
+components/VintageKeyboard/styles.css (required — drives the key-press animation)
+
+Place them in whatever folder your project uses for components (e.g.
+"components/" or "src/components/") — the two files just need to sit
+next to each other, since VintageKeyboard.tsx imports the stylesheet
+with a relative path ("./styles.css").
+
+Runtime dependency: react / react-dom — already part of any React
+project, no separate install step. No other npm packages required.`,
+  },
+  demoUsage: {
+    description:
+      'The component is self-contained. Once copied into your project, import it from wherever you placed the two files above — adjust the "@/..." alias below to match your own project setup (or use a relative import) if you don\'t already have a "@" path alias configured. Real keydown/keyup events on the page are passed through automatically.',
+    code: `import VintageKeyboard from "@/components/VintageKeyboard/VintageKeyboard";
+
+export default function Demo() {
+  return <VintageKeyboard theme="ivory" layout="full" />;
+}`,
+  },
+  exampleUsage: {
+    code: vintageKeyboardDemoSource,
+    preview: <VintageKeyboardDemo />,
+    previewMinHeight: "min-h-[380px]",
+  },
+  propGroups: [
+    {
+      heading: "VintageKeyboard",
+      rows: [
+        {
+          name: "theme",
+          type: '"graphite" | "ivory" | "olive"',
+          defaultVal: '"ivory"',
+          description: "Color theme applied to the shell and keycaps.",
+        },
+        {
+          name: "layout",
+          type: '"full" | "compact" | "numpad" | "iso"',
+          defaultVal: '"full"',
+          description: "Physical keyboard layout (104-key, 60%, numpad, or ISO).",
+        },
+        {
+          name: "size",
+          type: '"default" | "compact"',
+          defaultVal: '"default"',
+          description: "Overall key size scale.",
+        },
+        {
+          name: "soundEnabled",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Enable the procedural mechanical click sound on press/release.",
+        },
+        {
+          name: "haptics",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Enable haptic feedback (vibration) on press, where supported.",
+        },
+        {
+          name: "activeKeys",
+          type: "string[]",
+          defaultVal: "[]",
+          description: "Key codes to render as pressed from external state.",
+        },
+        {
+          name: "disabledKeys",
+          type: "string[]",
+          defaultVal: "[]",
+          description: "Key codes to disable — dimmed and non-interactive.",
+        },
+        {
+          name: "accentKeys",
+          type: "string[]",
+          defaultVal: '["Escape", "Enter", "Backspace", "Delete", "Space"]',
+          description: "Key codes rendered with the red accent keycap material.",
+        },
+        {
+          name: "onKeyPress",
+          type: "(e: { code: string; char: string | null; shift: boolean; caps: boolean }) => void",
+          description: "Called on every key press, from both pointer and physical keyboard input.",
+        },
+        {
+          name: "className",
+          type: "string",
+          description: "Additional CSS classes to apply to the root element.",
+        },
+      ],
+    },
+  ],
+  propsFootnote: (
+    <>
+      Scales to its container width automatically (via a{" "}
+      <code>ResizeObserver</code>) — the board itself never overflows or
+      scrolls horizontally. Physical keyboard input is captured on{" "}
+      <code>window</code> while the component is mounted.
+    </>
+  ),
+  source: {
+    title: "VintageKeyboard.tsx",
+    intro: "The full implementation of the Vintage Keyboard component.",
+    code: vintageKeyboardSource,
+  },
+};
+
+export const sketchbookDoc: ComponentDoc = {
+  slug: "sketchbook",
+  name: "Sketchbook",
+  filePath: "src/components/Sketchbook/Sketchbook.tsx",
+  description: (
+    <>
+      A compact, interactive paper sketchbook — nine drawn plates with
+      nested-strip CSS 3D page curls, direct drag-to-turn interaction, mouse
+      tilt, zoom controls, and a draggable magnifying glass.
+    </>
+  ),
+  secondaryNote: (
+    <>
+      The interactive book runs as plain vanilla JS/CSS3D inside a local,
+      self-contained sandboxed iframe (<code>srcdoc</code>) — no external
+      network requests, no CORS. That logic lives in{" "}
+      <code>sketchbookDoc.ts</code>, a required second file: it generates the
+      nine Sadie Sink plates as inline SVG (no image assets to ship) and
+      builds the full page-curl/drag/tilt/zoom/magnifier document that the
+      iframe mounts. Typography inside the book uses system font stacks
+      (Georgia/Times New Roman, and a cursive stack for the handwritten
+      notes) — nothing to vendor or self-host.
+    </>
+  ),
+  install: {
+    manualIntro: "No extra dependencies required. Copy the component source into your project:",
+    manualText: `Copy the combined source code from the Source Code section below.
+
+By default, the source is provided as a single file for convenience. You can save it as:
+- src/components/ui/Sketchbook.tsx
+
+(If you prefer, you can split it into Sketchbook.tsx and sketchbookDoc.ts as indicated by the comments in the source).`,
+  },
+  demoUsage: {
+    description:
+      "The component is self-contained — it renders a fixed-aspect, transparent-background frame that scales down to its container width.",
+    code: `import { Sketchbook } from "@/components/ui/Sketchbook";
+
+export default function Demo() {
+  return <Sketchbook />;
+}`,
+  },
+  exampleUsage: {
+    code: sketchbookDemoSource,
+    preview: <SketchbookDemo />,
+    previewMinHeight: "min-h-[380px]",
+  },
+  propGroups: [
+    {
+      heading: "Sketchbook",
+      rows: [
+        {
+          name: "startPlate",
+          type: "number",
+          defaultVal: "0",
+          description: "Which plate to show on load (0-8).",
+        },
+        {
+          name: "magnifier",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Show the draggable magnifying glass.",
+        },
+        {
+          name: "intro",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Play the riffle intro animation on mount.",
+        },
+        {
+          name: "className",
+          type: "string",
+          description: "Additional CSS classes to apply to the root element.",
+        },
+      ],
+    },
+  ],
+  propsFootnote: (
+    <>
+      Scales responsively to its container width (max <code>640px</code>) via
+      CSS <code>aspect-ratio</code> — the book itself never overflows or
+      scrolls horizontally. Keyboard-accessible: arrow keys turn pages,
+      double-click resets zoom.
+    </>
+  ),
+  source: {
+    title: "Sketchbook.tsx",
+    intro: "The React wrapper, plus the full interactive book implementation it mounts.",
+    code: `${sketchbookSource}
+// ---------------------------------------------------------------------------
+// src/components/Sketchbook/sketchbookDoc.ts
+// ---------------------------------------------------------------------------
+
+${sketchbookDocSource}`,
   },
 };

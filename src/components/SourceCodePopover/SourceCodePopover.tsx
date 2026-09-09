@@ -200,16 +200,25 @@ function SourceCodePopover({
                 <section>
                   <h3 className="text-sm font-semibold text-white mb-4">Install</h3>
                   <div className="space-y-3">
-                    <p className="text-sm text-white/70">{doc.install.cliIntro}</p>
-                    <Tabs tabs={["CLI", "Manual"]}>
-                      <div className="pt-1">
-                        <PackageManagerTabs commands={doc.install.cliCommands} />
-                      </div>
+                    {doc.install.cliCommands ? (
+                      <>
+                        <p className="text-sm text-white/70">{doc.install.cliIntro}</p>
+                        <Tabs tabs={["CLI", "Manual"]}>
+                          <div className="pt-1">
+                            <PackageManagerTabs commands={doc.install.cliCommands} />
+                          </div>
+                          <div className="pt-1 space-y-3">
+                            <p className="text-sm text-white/70">{doc.install.manualIntro}</p>
+                            <CodeBlock code={doc.install.manualText} language="text" />
+                          </div>
+                        </Tabs>
+                      </>
+                    ) : (
                       <div className="pt-1 space-y-3">
                         <p className="text-sm text-white/70">{doc.install.manualIntro}</p>
                         <CodeBlock code={doc.install.manualText} language="text" />
                       </div>
-                    </Tabs>
+                    )}
                   </div>
                 </section>
 
