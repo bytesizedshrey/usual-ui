@@ -1,6 +1,12 @@
 import ThreeDCardDemo from "../../components/3d-card-demo";
 import MusicPlayer3DCardDemo from "../../components/music-player-3d-card-demo";
 import NavigationMapCardDemo from "../../components/navigation-map-card-demo";
+import VintageKeyboardCardDemo from "../../components/vintage-keyboard-card-demo";
+import SketchbookCardDemo from "../../components/sketchbook-card-demo";
+import SavingsChallengeCardCardDemo from "../../components/savings-challenge-card-demo";
+import ClimateControlPanelCardDemo from "../../components/climate-control-panel-card-demo";
+import VehicleControlSurfaceCardDemo from "../../components/vehicle-control-surface-card-demo";
+import EVWirelessChargingCardDemo from "../../components/ev-wireless-charging-card-demo";
 import Hero from "../../components/Hero";
 import MotionScrollWordRevealDemo from "../../components/MotionScrollWordRevealDemo";
 import { Reveal } from "../../components/motion";
@@ -13,15 +19,33 @@ const Home = () => {
       <Hero />
       <MotionScrollWordRevealDemo />
       <section className="w-full bg-[#030304] px-6 py-12" id="showcase">
-        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-start justify-items-center gap-8 lg:grid-cols-3">
-          <Reveal>
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-stretch justify-items-center gap-8 lg:grid-cols-3">
+          <Reveal className="h-full">
             <ThreeDCardDemo />
           </Reveal>
-          <Reveal delay={0.16}>
+          <Reveal className="h-full" delay={0.16}>
             <MusicPlayer3DCardDemo />
           </Reveal>
-          <Reveal delay={0.24}>
+          <Reveal className="h-full" delay={0.24}>
             <NavigationMapCardDemo />
+          </Reveal>
+          <Reveal className="h-full" delay={0.32}>
+            <VintageKeyboardCardDemo />
+          </Reveal>
+          <Reveal className="h-full" delay={0.4}>
+            <SketchbookCardDemo />
+          </Reveal>
+          <Reveal className="h-full" delay={0.48}>
+            <SavingsChallengeCardCardDemo />
+          </Reveal>
+          <Reveal className="h-full" delay={0.56}>
+            <ClimateControlPanelCardDemo />
+          </Reveal>
+          <Reveal className="h-full" delay={0.64}>
+            <VehicleControlSurfaceCardDemo />
+          </Reveal>
+          <Reveal className="h-full" delay={0.72}>
+            <EVWirelessChargingCardDemo />
           </Reveal>
         </div>
       </section>

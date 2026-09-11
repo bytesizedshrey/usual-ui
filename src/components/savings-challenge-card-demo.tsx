@@ -2,35 +2,42 @@
 
 import { useRef, useState } from "react";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
-import NavigationMapDemo from "@/components/NavigationMapDemo";
+import { SavingsChallengeCard } from "@/components/SavingsChallengeCard";
 import SourceCodePopover from "@/components/SourceCodePopover";
-import { navigationMapDoc } from "@/lib/component-docs";
+import { savingsChallengeCardDoc } from "@/lib/component-docs";
 
-export default function NavigationMapCardDemo() {
+export default function SavingsChallengeCardCardDemo() {
   const [sourceOpen, setSourceOpen] = useState(false);
   const sourceAnchorRef = useRef<HTMLSpanElement>(null);
 
   return (
-    <CardContainer className="inter-var" containerClassName="py-0">
+    <CardContainer className="inter-var" containerClassName="py-0" maxTilt={6}>
       <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-96 h-full flex flex-col rounded-xl p-4 border  ">
         <CardItem
           translateZ="50"
           className="text-base font-bold text-neutral-600 dark:text-white"
         >
-          Navigation Map
+          Savings Challenge Card
         </CardItem>
         <CardItem
           as="p"
           translateZ="60"
           className="mt-1 max-w-xs text-xs text-neutral-500 dark:text-neutral-300"
         >
-          A compact skeuomorphic in-car navigation widget with a procedural map, live route, and tactile controls.
+          A group savings goal with a recessed dot-matrix readout, milestone progress curve, and contributor roster.
         </CardItem>
         <CardItem
           translateZ="100"
           className="mt-3 flex flex-1 w-full items-center justify-center"
         >
-          <NavigationMapDemo />
+          <div className="[zoom:0.62]">
+            <SavingsChallengeCard
+              participants={[
+                { name: "Mara Vos", amount: 21400, tint: "#d8ec4a" },
+                { name: "Idris Kane", amount: 18960, tint: "#8fb8e8" },
+              ]}
+            />
+          </div>
         </CardItem>
         <div className="mt-4 flex w-full items-center justify-center">
           <span
@@ -54,7 +61,7 @@ export default function NavigationMapCardDemo() {
 
       <SourceCodePopover
         anchorRef={sourceAnchorRef}
-        doc={navigationMapDoc}
+        doc={savingsChallengeCardDoc}
         onOpenChange={setSourceOpen}
         open={sourceOpen}
       />

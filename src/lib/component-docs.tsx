@@ -7,10 +7,27 @@ import navigationMapDemoSource from "@/components/NavigationMapDemo/NavigationMa
 import VintageKeyboardDemo from "@/components/VintageKeyboardDemo";
 import vintageKeyboardSource from "@/components/VintageKeyboard/VintageKeyboard.tsx?raw";
 import vintageKeyboardDemoSource from "@/components/VintageKeyboardDemo/VintageKeyboardDemo.tsx?raw";
+import ClimateControlPanelDemo from "@/components/ClimateControlPanelDemo";
+import climateControlPanelSource from "@/components/ClimateControlPanel/ClimateControlPanel.tsx?raw";
+import climateControlPanelDemoSource from "@/components/ClimateControlPanelDemo/ClimateControlPanelDemo.tsx?raw";
+import VehicleControlSurfaceDemo from "@/components/VehicleControlSurfaceDemo";
+import vehicleControlSurfaceSource from "@/components/VehicleControlSurface/VehicleControlSurface.tsx?raw";
+import vehicleStageSource from "@/components/VehicleControlSurface/VehicleStage.tsx?raw";
+import vehicleModelSource from "@/components/VehicleControlSurface/vehicleModel.ts?raw";
+import vehicleControlSurfaceDemoSource from "@/components/VehicleControlSurfaceDemo/VehicleControlSurfaceDemo.tsx?raw";
+import EVWirelessChargingDemo from "@/components/EVWirelessChargingDemo";
+import evWirelessChargingSource from "@/components/EVWirelessCharging/EVWirelessCharging.tsx?raw";
+import chargingStageSource from "@/components/EVWirelessCharging/ChargingStage.tsx?raw";
+import evChargingModelSource from "@/components/EVWirelessCharging/evChargingModel.ts?raw";
+import evWirelessChargingDemoSource from "@/components/EVWirelessChargingDemo/EVWirelessChargingDemo.tsx?raw";
 import SketchbookDemo from "@/components/SketchbookDemo";
 import sketchbookSource from "@/components/Sketchbook/Sketchbook.tsx?raw";
 import sketchbookDocSource from "@/components/Sketchbook/sketchbookDoc.ts?raw";
 import sketchbookDemoSource from "@/components/SketchbookDemo/SketchbookDemo.tsx?raw";
+import SavingsChallengeCardDemo from "@/components/SavingsChallengeCardDemo";
+import savingsChallengeCardSource from "@/components/SavingsChallengeCard/SavingsChallengeCard.tsx?raw";
+import savingsChallengeCardDotMatrixSource from "@/components/SavingsChallengeCard/dot-matrix.tsx?raw";
+import savingsChallengeCardDemoSource from "@/components/SavingsChallengeCardDemo/SavingsChallengeCardDemo.tsx?raw";
 
 import type { ReactNode } from "react";
 import receiptPrinterSource from "@/components/ReceiptPrinter/ReceiptPrinter.tsx?raw";
@@ -525,6 +542,582 @@ export default function Demo() {
   },
 };
 
+export const climateControlPanelDoc: ComponentDoc = {
+  slug: "climate-control-panel",
+  name: "Climate Control Panel",
+  filePath: "src/components/ClimateControlPanel/ClimateControlPanel.tsx",
+  description: (
+    <>
+      A skeuomorphic car climate control panel — a milled housing with three
+      recessed switches: a front-defrost toggle, an A/C toggle with an
+      indicator LED, and a two-position air intake selector (fresh air /
+      recirculate), each with real button travel, procedural click sound, and
+      haptic feedback on press.
+    </>
+  ),
+  secondaryNote: (
+    <>
+      Sound uses the Web Audio API and haptics use the Vibration API; both
+      degrade gracefully (silently no-op) on browsers or devices that
+      don&apos;t support them. The air intake selector follows the WAI-ARIA{" "}
+      <code>radiogroup</code> pattern with roving <code>tabIndex</code> and
+      arrow-key navigation. Labels are set in <code>"Geist"</code> with a{" "}
+      <code>ui-sans-serif, sans-serif</code> fallback — self-hosting Geist is
+      optional, the panel renders fine on your system sans-serif if you
+      don&apos;t have it.
+    </>
+  ),
+  install: {
+    cliIntro:
+      "usual-ui components are copy-paste source, not an installable package — grab the code from the Source Code panel below and paste these two files into your own project:",
+    cliCommands: {
+      npm: "# No package install needed beyond react/react-dom, which almost\n# every React project already has.\n# Open \"Source Code\" below, then copy the files listed under \"Manual\".",
+      pnpm: "# No package install needed beyond react/react-dom, which almost\n# every React project already has.\n# Open \"Source Code\" below, then copy the files listed under \"Manual\".",
+      yarn: "# No package install needed beyond react/react-dom, which almost\n# every React project already has.\n# Open \"Source Code\" below, then copy the files listed under \"Manual\".",
+      bun: "# No package install needed beyond react/react-dom, which almost\n# every React project already has.\n# Open \"Source Code\" below, then copy the files listed under \"Manual\".",
+    },
+    manualIntro: "Copy these files into your own project — both are required:",
+    manualText: `components/ClimateControlPanel/ClimateControlPanel.tsx
+components/ClimateControlPanel/styles.css (required — drives the hover/focus states and press animation)
+
+Place them in whatever folder your project uses for components (e.g.
+"components/" or "src/components/") — the two files just need to sit
+next to each other, since ClimateControlPanel.tsx imports the stylesheet
+with a relative path ("./styles.css").
+
+Runtime dependency: react / react-dom — already part of any React
+project, no separate install step. No other npm packages required.`,
+  },
+  demoUsage: {
+    description:
+      'The component is self-contained and uncontrolled by default. Once copied into your project, import it from wherever you placed the two files above — adjust the "@/..." alias below to match your own project setup (or use a relative import) if you don\'t already have a "@" path alias configured.',
+    code: `import ClimateControlPanel from "@/components/ClimateControlPanel/ClimateControlPanel";
+
+export default function Demo() {
+  return (
+    <ClimateControlPanel
+      defaultAcOn
+      defaultIntake="fresh"
+      onChange={(state) => console.log(state)}
+    />
+  );
+}`,
+  },
+  exampleUsage: {
+    code: climateControlPanelDemoSource,
+    preview: <ClimateControlPanelDemo />,
+    previewMinHeight: "min-h-[560px]",
+  },
+  propGroups: [
+    {
+      heading: "ClimateControlPanel",
+      rows: [
+        {
+          name: "defaultDefrostOn",
+          type: "boolean",
+          defaultVal: "false",
+          description: "Initial state of the front defrost toggle.",
+        },
+        {
+          name: "defaultAcOn",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Initial state of the A/C toggle.",
+        },
+        {
+          name: "defaultIntake",
+          type: '"fresh" | "recirc"',
+          defaultVal: '"fresh"',
+          description: "Initial air intake mode.",
+        },
+        {
+          name: "ledColor",
+          type: "string",
+          defaultVal: '"#2edc46"',
+          description: "Color of the A/C indicator LED (any valid CSS color).",
+        },
+        {
+          name: "sound",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Enable the procedural mechanical click sound on press/release.",
+        },
+        {
+          name: "haptics",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Enable haptic feedback (vibration) on press, where supported.",
+        },
+        {
+          name: "showStatus",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Show the monospace status line beneath the panel.",
+        },
+        {
+          name: "onChange",
+          type: "(state: { defrost: boolean; ac: boolean; intake: \"fresh\" | \"recirc\" }) => void",
+          description: "Called whenever the defrost toggle, A/C toggle, or air intake mode changes.",
+        },
+        {
+          name: "className",
+          type: "string",
+          description: "Additional CSS classes to apply to the root element.",
+        },
+      ],
+    },
+  ],
+  propsFootnote: (
+    <>
+      Scales to its container width automatically (via a{" "}
+      <code>ResizeObserver</code>) — the panel itself never overflows or
+      scrolls horizontally.
+    </>
+  ),
+  source: {
+    title: "ClimateControlPanel.tsx",
+    intro: "The full implementation of the Climate Control Panel component.",
+    code: climateControlPanelSource,
+  },
+};
+
+export const vehicleControlSurfaceDoc: ComponentDoc = {
+  slug: "vehicle-control-surface",
+  name: "Vehicle Control Surface",
+  filePath: "src/components/VehicleControlSurface/VehicleControlSurface.tsx",
+  description: (
+    <>
+      A premium EV dashboard — a live, procedurally built 3D vehicle
+      (React Three Fiber, no model file) rendered in a deep-black studio
+      environment, with a header battery gauge and status line above it and
+      a tactile skeuomorphic control dock — lock, climate, charging, sentry,
+      and battery detail — below.
+    </>
+  ),
+  secondaryNote: (
+    <>
+      The dock controls are physical, not flat web buttons: unpressed they
+      sit raised with a bevel highlight and a contact shadow; pressed/active
+      they sink into the housing with darker inner edges, ambient occlusion,
+      and a lit LED — depth communicates state even with the icon and color
+      unchanged. Sound uses the Web Audio API and haptics use the Vibration
+      API; both degrade gracefully on browsers or devices that don&apos;t
+      support them. The 3D stage renders with <code>@react-three/fiber</code>{" "}
+      and <code>@react-three/drei</code> (already used by{" "}
+      <code>MusicPlayer3D</code> in this library) — no GLB/GLTF asset to
+      ship, the car body is built from primitive geometry at runtime.
+    </>
+  ),
+  install: {
+    cliIntro: "Install the required dependencies:",
+    cliCommands: npmAdd("three @react-three/fiber @react-three/drei"),
+    manualIntro: "Add the required dependencies and copy these files into your project:",
+    manualText: `Copy the following files into your project:
+- src/components/VehicleControlSurface/VehicleControlSurface.tsx
+- src/components/VehicleControlSurface/VehicleStage.tsx
+- src/components/VehicleControlSurface/vehicleModel.ts
+- src/components/VehicleControlSurface/styles.css (required — drives the dock's raised/sunk states and press animation)
+- src/lib/utils.ts (for the cn utility)
+
+Place them in whatever folder your project uses for components — the
+files just need to sit next to each other, since
+VehicleControlSurface.tsx imports "./VehicleStage" and "./styles.css",
+and VehicleStage.tsx imports "./vehicleModel" with relative paths.
+
+Runtime dependencies: react / react-dom, three, @react-three/fiber, and
+@react-three/drei.`,
+  },
+  demoUsage: {
+    description:
+      'The component is self-contained and uncontrolled by default — drop it in and it manages its own lock/climate/charging/sentry/battery-detail state. Pass "batteryLevel" instead of "defaultBatteryLevel" to drive the gauge from live telemetry, and "onChange" to react to control changes. Adjust the "@/..." alias below to match your own project setup if you don\'t already have a "@" path alias configured.',
+    code: `import VehicleControlSurface from "@/components/VehicleControlSurface/VehicleControlSurface";
+
+export default function Demo() {
+  return (
+    <VehicleControlSurface
+      vehicleName="Vega EX"
+      defaultBatteryLevel={82}
+      defaultLocked
+      onChange={(state) => console.log(state)}
+    />
+  );
+}`,
+  },
+  exampleUsage: {
+    code: vehicleControlSurfaceDemoSource,
+    preview: <VehicleControlSurfaceDemo />,
+    previewMinHeight: "min-h-[760px]",
+  },
+  propGroups: [
+    {
+      heading: "VehicleControlSurface",
+      rows: [
+        {
+          name: "vehicleName",
+          type: "string",
+          defaultVal: '"Vega EX"',
+          description: "Name shown in the header.",
+        },
+        {
+          name: "models",
+          type: "{ id: string; name: string; tag?: string }[]",
+          description: "Other vehicles the header dropdown can switch between. Omit (or pass fewer than 2) to hide the dropdown affordance.",
+        },
+        {
+          name: "onVehicleChange",
+          type: "(model: VehicleModelOption) => void",
+          description: "Called when the user picks a different vehicle from the header dropdown.",
+        },
+        {
+          name: "batteryLevel",
+          type: "number",
+          description: "Current battery level, 0-100. Controlled — pass this to drive the gauge from live telemetry.",
+        },
+        {
+          name: "defaultBatteryLevel",
+          type: "number",
+          defaultVal: "82",
+          description: "Starting battery level when uncontrolled. Ticks upward while charging, up to chargeLimitPercent.",
+        },
+        {
+          name: "status",
+          type: "string",
+          defaultVal: '"Parked"',
+          description: "Baseline status label shown when idle (no charging/climate/sentry override).",
+        },
+        {
+          name: "rangeKm",
+          type: "number",
+          description: "Estimated range shown in the battery detail readout. Defaults to a projection from the battery level.",
+        },
+        {
+          name: "chargeLimitPercent",
+          type: "number",
+          defaultVal: "90",
+          description: "Charge limit shown in the battery detail readout, as a percent.",
+        },
+        {
+          name: "packTempC",
+          type: "number",
+          defaultVal: "24",
+          description: "Pack temperature shown in the battery detail readout, in °C.",
+        },
+        {
+          name: "cabinTargetC",
+          type: "number",
+          defaultVal: "21",
+          description: "Cabin target temperature shown in the status line while climate is on, in °C.",
+        },
+        {
+          name: "chargingPowerKw",
+          type: "number",
+          defaultVal: "11.2",
+          description: "Charge rate shown in the status line while charging, in kW.",
+        },
+        {
+          name: "paintColor",
+          type: "string",
+          defaultVal: '"#121519"',
+          description: "Body paint color for the 3D vehicle, any CSS hex color.",
+        },
+        {
+          name: "defaultLocked",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Initial lock state.",
+        },
+        {
+          name: "defaultClimateOn",
+          type: "boolean",
+          defaultVal: "false",
+          description: "Initial climate state.",
+        },
+        {
+          name: "defaultCharging",
+          type: "boolean",
+          defaultVal: "false",
+          description: "Initial charging state.",
+        },
+        {
+          name: "defaultSentry",
+          type: "boolean",
+          defaultVal: "false",
+          description: "Initial sentry/security state.",
+        },
+        {
+          name: "defaultBatteryDetailOpen",
+          type: "boolean",
+          defaultVal: "false",
+          description: "Initial state of the battery detail readout drawer.",
+        },
+        {
+          name: "sound",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Enable the procedural control-press click sound.",
+        },
+        {
+          name: "haptics",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Enable haptic feedback (vibration) on press, where supported.",
+        },
+        {
+          name: "onChange",
+          type: "(state: { locked: boolean; climateOn: boolean; charging: boolean; sentry: boolean; batteryDetailOpen: boolean }) => void",
+          description: "Called whenever lock, climate, charging, sentry, or the battery detail drawer changes.",
+        },
+        {
+          name: "onMessagesClick",
+          type: "() => void",
+          description: "Called when the header messages icon is clicked.",
+        },
+        {
+          name: "onMenuClick",
+          type: "() => void",
+          description: "Called when the header menu icon is clicked.",
+        },
+        {
+          name: "className",
+          type: "string",
+          description: "Additional CSS classes to apply to the root element.",
+        },
+      ],
+    },
+  ],
+  propsFootnote: (
+    <>
+      Fluid, not viewport-hardcoded: the dock, header, and readout use{" "}
+      <code>cqw</code>-based container queries against the component&apos;s
+      own box (not the viewport), so it holds its proportions whether it
+      sits at phone width in a card or full width on a dashboard page. The
+      root fills its parent (<code>width: 100%; height: 100%</code>) and
+      has no baked-in height of its own — size it with a parent that has an
+      explicit height, or an <code>aspect-ratio</code> wrapper (the demo
+      above uses <code>aspect-[3/5]</code>), the same way{" "}
+      <code>MusicPlayer3D</code> is sized in this library.
+    </>
+  ),
+  source: {
+    title: "VehicleControlSurface.tsx",
+    intro: "The full implementation of the Vehicle Control Surface component, its 3D stage, and the procedural vehicle geometry builder.",
+    code: `${vehicleControlSurfaceSource}
+
+// ---------------------------------------------------------------------------
+// src/components/VehicleControlSurface/VehicleStage.tsx
+// ---------------------------------------------------------------------------
+
+${vehicleStageSource}
+
+// ---------------------------------------------------------------------------
+// src/components/VehicleControlSurface/vehicleModel.ts
+// ---------------------------------------------------------------------------
+
+${vehicleModelSource}`,
+  },
+};
+
+export const evWirelessChargingDoc: ComponentDoc = {
+  slug: "ev-wireless-charging",
+  name: "EV Wireless Charging",
+  filePath: "src/components/EVWirelessCharging/EVWirelessCharging.tsx",
+  description: (
+    <>
+      A premium wireless-charging status screen — a realistic procedurally
+      built 3D EV (React Three Fiber, no model file) sitting over an
+      animated green/cyan induction field, with a large range readout, a
+      machined battery-pack gauge, and a tactile pill-shaped Start/Stop
+      Charging control.
+    </>
+  ),
+  secondaryNote: (
+    <>
+      The vehicle body is lofted from extruded panel shapes bent through a
+      plan-view taper and a cross-section camber pass (not a boxy primitive
+      car), with lathe-revolved tires for a real sidewall bulge — the same
+      recipe as <code>VehicleControlSurface</code> in this library, tuned
+      for a rounded SUV silhouette. Sound uses the Web Audio API and haptics
+      use the Vibration API; both degrade gracefully on browsers or devices
+      that don&apos;t support them. The Start/Stop button&apos;s pressed
+      look is driven purely by physical depth (a translated shadow swap),
+      not just a color change.
+    </>
+  ),
+  install: {
+    cliIntro: "Install the required dependencies:",
+    cliCommands: npmAdd("three @react-three/fiber @react-three/drei"),
+    manualIntro: "Add the required dependencies and copy these files into your project:",
+    manualText: `Copy the following files into your project:
+- src/components/EVWirelessCharging/EVWirelessCharging.tsx
+- src/components/EVWirelessCharging/ChargingStage.tsx
+- src/components/EVWirelessCharging/evChargingModel.ts
+- src/components/EVWirelessCharging/styles.css (required — drives the battery cells and button press states)
+- src/lib/utils.ts (for the cn utility)
+
+Place them in whatever folder your project uses for components — the
+files just need to sit next to each other, since
+EVWirelessCharging.tsx imports "./ChargingStage" and "./styles.css",
+and ChargingStage.tsx imports "./evChargingModel" with relative paths.
+
+Runtime dependencies: react / react-dom, three, @react-three/fiber, and
+@react-three/drei.`,
+  },
+  demoUsage: {
+    description:
+      'The component is self-contained and uncontrolled by default. Once copied into your project, import it from wherever you placed the files above — adjust the "@/..." alias below to match your own project setup if you don\'t already have a "@" path alias configured. It has no baked-in height, so size it with an "aspect-ratio" wrapper (as the demo below does) or a parent that has an explicit height.',
+    code: `import EVWirelessCharging from "@/components/EVWirelessCharging/EVWirelessCharging";
+
+export default function Demo() {
+  return (
+    <EVWirelessCharging
+      rangeKm={127}
+      hoursRemaining={12}
+      defaultBatteryLevel={32}
+      defaultCharging
+      onChargingChange={(charging) => console.log(charging)}
+    />
+  );
+}`,
+  },
+  exampleUsage: {
+    code: evWirelessChargingDemoSource,
+    preview: <EVWirelessChargingDemo />,
+    previewMinHeight: "min-h-[480px]",
+  },
+  propGroups: [
+    {
+      heading: "EVWirelessCharging",
+      rows: [
+        {
+          name: "title",
+          type: "string",
+          defaultVal: '"Wireless Charging"',
+          description: "Header title.",
+        },
+        {
+          name: "hoursRemaining",
+          type: "number",
+          defaultVal: "12",
+          description: "Hours until the pack reaches full charge, used for the default subtitle text.",
+        },
+        {
+          name: "remainingLabel",
+          type: "string",
+          description: 'Override for the subtitle under the title (defaults to "{hoursRemaining} hrs remaining").',
+        },
+        {
+          name: "rangeKm",
+          type: "number",
+          defaultVal: "127",
+          description: "Estimated driving range, shown as the large central number.",
+        },
+        {
+          name: "rangeUnit",
+          type: "string",
+          defaultVal: '"km"',
+          description: "Unit label next to the range value.",
+        },
+        {
+          name: "batteryLevel",
+          type: "number",
+          description: "Current battery level, 0-100. Controlled — pass this to drive the gauge from live telemetry.",
+        },
+        {
+          name: "defaultBatteryLevel",
+          type: "number",
+          defaultVal: "32",
+          description: "Starting battery level when uncontrolled. Ticks upward while charging.",
+        },
+        {
+          name: "cellCount",
+          type: "number",
+          defaultVal: "16",
+          description: "Number of segmented cells in the battery pack readout.",
+        },
+        {
+          name: "charging",
+          type: "boolean",
+          description: "Whether charging is active. Controlled — pass this with onChargingChange to own the state.",
+        },
+        {
+          name: "defaultCharging",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Initial charging state when uncontrolled.",
+        },
+        {
+          name: "onChargingChange",
+          type: "(charging: boolean) => void",
+          description: "Called whenever the Start/Stop Charging button is pressed.",
+        },
+        {
+          name: "stopLabel",
+          type: "string",
+          defaultVal: '"Stop Charging"',
+          description: "Button label while charging is active.",
+        },
+        {
+          name: "startLabel",
+          type: "string",
+          defaultVal: '"Start Charging"',
+          description: "Button label while charging is inactive.",
+        },
+        {
+          name: "paintColor",
+          type: "string",
+          defaultVal: '"#3b444c"',
+          description: "Body paint color for the 3D vehicle, any CSS hex color.",
+        },
+        {
+          name: "sound",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Enable the procedural button-press click sound.",
+        },
+        {
+          name: "haptics",
+          type: "boolean",
+          defaultVal: "true",
+          description: "Enable haptic feedback (vibration) on press, where supported.",
+        },
+        {
+          name: "className",
+          type: "string",
+          description: "Additional CSS classes to apply to the root element.",
+        },
+      ],
+    },
+  ],
+  propsFootnote: (
+    <>
+      Fluid, not viewport-hardcoded: text and layout use <code>cqw</code>
+      -based container queries against the component&apos;s own box, and the
+      root fills its parent with no baked-in height — size it with an{" "}
+      <code>aspect-ratio</code> wrapper (the demo above uses{" "}
+      <code>aspect-[4/3]</code>, matching the reference composition) or a
+      parent with an explicit height, the same way <code>MusicPlayer3D</code>{" "}
+      and <code>VehicleControlSurface</code> are sized in this library.
+    </>
+  ),
+  source: {
+    title: "EVWirelessCharging.tsx",
+    intro: "The full implementation of the EV Wireless Charging component, its 3D stage, and the procedural vehicle geometry builder.",
+    code: `${evWirelessChargingSource}
+
+// ---------------------------------------------------------------------------
+// src/components/EVWirelessCharging/ChargingStage.tsx
+// ---------------------------------------------------------------------------
+
+${chargingStageSource}
+
+// ---------------------------------------------------------------------------
+// src/components/EVWirelessCharging/evChargingModel.ts
+// ---------------------------------------------------------------------------
+
+${evChargingModelSource}`,
+  },
+};
+
 export const sketchbookDoc: ComponentDoc = {
   slug: "sketchbook",
   name: "Sketchbook",
@@ -619,5 +1212,197 @@ export default function Demo() {
 // ---------------------------------------------------------------------------
 
 ${sketchbookDocSource}`,
+  },
+};
+
+export const savingsChallengeCardDoc: ComponentDoc = {
+  slug: "savings-challenge-card",
+  name: "Savings Challenge Card",
+  filePath: "src/components/SavingsChallengeCard/SavingsChallengeCard.tsx",
+  description: (
+    <>
+      A group savings goal rendered as a moulded object — a top-lit shell, a
+      recessed dot-matrix amount readout, and a milestone curve that fills as
+      the pot grows, with an avatar roster and a single accent-filled deposit
+      button.
+    </>
+  ),
+  secondaryNote: (
+    <>
+      Built on the same material recipe as{" "}
+      <code>ReceiptPrinter</code>: a top-lit gradient shell over a tiled
+      plastic-noise texture, flat recessed cavities for the readout and
+      roster drawer, and circular &quot;well&quot; controls. The amount and
+      remaining figures render through <code>DotMatrix</code>, a small
+      bundled SVG dot-matrix renderer (in <code>dot-matrix.tsx</code>) rather
+      than a font. The card is controlled and fires{" "}
+      <code>onDeposit</code> / <code>onToggleRoster</code> — it renders no
+      deposit UI of its own, so the demo below wires its own bottom sheet.
+    </>
+  ),
+  install: {
+    cliIntro: "Install the required dependencies:",
+    cliCommands: npmAdd("@phosphor-icons/react motion tailwind-merge clsx"),
+    manualIntro: "Add the required dependencies and copy the source files into your project:",
+    manualText: `Copy the following files into your project:
+- src/components/SavingsChallengeCard/SavingsChallengeCard.tsx
+- src/components/SavingsChallengeCard/dot-matrix.tsx
+- src/lib/utils.ts (for the cn utility)
+
+You will also need the plastic-noise texture in your public directory at
+/textures/plastic-noise.svg (already present if you have ReceiptPrinter).`,
+  },
+  demoUsage: {
+    description:
+      "The component is controlled: changing amount animates the readout and the progress curve. It fires onDeposit and onToggleRoster and renders no deposit UI of its own — open your own sheet/modal in onDeposit, as the demo below does.",
+    code: `import { SavingsChallengeCard } from "@/components/SavingsChallengeCard";
+
+export default function Demo() {
+  return (
+    <SavingsChallengeCard
+      title="Bitcoin BTC"
+      duration="2 months challenge"
+      amount={55320}
+      goal={68120}
+      participants={[
+        { name: "Mara Vos", amount: 21400, tint: "#d8ec4a" },
+        { name: "Idris Kane", amount: 18960, tint: "#8fb8e8" },
+        { name: "Lena Ohm", amount: 14960, tint: "#e0a96d" },
+      ]}
+      onDeposit={() => {
+        /* open your own deposit sheet/modal */
+      }}
+    />
+  );
+}`,
+  },
+  exampleUsage: {
+    code: savingsChallengeCardDemoSource,
+    preview: <SavingsChallengeCardDemo />,
+    previewMinHeight: "min-h-[600px]",
+  },
+  propGroups: [
+    {
+      heading: "SavingsChallengeCard",
+      rows: [
+        {
+          name: "title",
+          type: "string",
+          defaultVal: '"Bitcoin BTC"',
+          description: "Asset / challenge name, centred in the header.",
+        },
+        {
+          name: "duration",
+          type: "string",
+          defaultVal: '"2 months challenge"',
+          description: "Sub-line under the title.",
+        },
+        {
+          name: "amount",
+          type: "number",
+          defaultVal: "55320",
+          description: "Saved so far. Controlled: changing it counts the readout up and redraws the curve.",
+        },
+        {
+          name: "goal",
+          type: "number",
+          defaultVal: "68120",
+          description: "Target amount. Drives the remaining figure and, unless progress is set, the curve.",
+        },
+        {
+          name: "progress",
+          type: "number",
+          description: "0-1 override for progress, for when it is not a simple amount/goal ratio.",
+        },
+        {
+          name: "currency",
+          type: "string",
+          defaultVal: '"USD"',
+          description: "ISO 4217 currency code, formatted via Intl.NumberFormat.",
+        },
+        {
+          name: "locale",
+          type: "string",
+          defaultVal: '"en-US"',
+          description: "BCP 47 locale tag. Governs grouping, symbol position and the compact suffix.",
+        },
+        {
+          name: "accent",
+          type: "string",
+          defaultVal: '"#d8ec4a"',
+          description: "Single accent used for the curve, milestone nodes, the primary button and focus rings.",
+        },
+        {
+          name: "loading",
+          type: "boolean",
+          defaultVal: "false",
+          description: "Skeleton state: dots stay unlit and breathe, accent and labels are suppressed.",
+        },
+        {
+          name: "participants",
+          type: "SavingsChallengeParticipant[]",
+          defaultVal: "[]",
+          description: '{ name, src?, initials?, amount?, tint? }. First two render as avatars in the pill; the rest roll into a "+n" count. Empty shows the invite state.',
+        },
+        {
+          name: "totalLabel",
+          type: "string",
+          defaultVal: '"Total Amount"',
+          description: "Caption under the amount readout.",
+        },
+        {
+          name: "remainingLabel",
+          type: "string",
+          defaultVal: '"Left to reach the goal"',
+          description: "Caption above the remaining figure.",
+        },
+        {
+          name: "emptyLabel",
+          type: "string",
+          defaultVal: '"No one yet"',
+          description: "Shown in the pill when participants is empty.",
+        },
+        {
+          name: "depositLabel",
+          type: "string",
+          defaultVal: '"Add to this challenge"',
+          description: "Accessible label for the primary button.",
+        },
+        {
+          name: "onDeposit",
+          type: "() => void",
+          description: "Fired by the primary button. The card renders no deposit UI of its own — open your own sheet/modal here.",
+        },
+        {
+          name: "onToggleRoster",
+          type: "(open: boolean) => void",
+          description: "Fired when the contributor drawer opens or closes.",
+        },
+        {
+          name: "className",
+          type: "string",
+          description: "Additional CSS classes to apply to the root element.",
+        },
+      ],
+    },
+  ],
+  propsFootnote: (
+    <>
+      Sized by <code>max-w-sm</code> and scales down cleanly via CSS{" "}
+      <code>clamp()</code>/<code>cqw</code> units on the readouts and the
+      deposit button — the card never overflows or scrolls horizontally.
+      Motion (count-up, progress arc, roster drawer) respects{" "}
+      <code>prefers-reduced-motion</code>.
+    </>
+  ),
+  source: {
+    title: "SavingsChallengeCard.tsx",
+    intro: "The card component, plus the DotMatrix readout renderer it uses for the amount and remaining figures.",
+    code: `${savingsChallengeCardSource}
+// ---------------------------------------------------------------------------
+// src/components/SavingsChallengeCard/dot-matrix.tsx
+// ---------------------------------------------------------------------------
+
+${savingsChallengeCardDotMatrixSource}`,
   },
 };

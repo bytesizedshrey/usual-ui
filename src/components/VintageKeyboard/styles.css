@@ -1,0 +1,15 @@
+/* Press state animation (applied via data attribute) */
+[data-vk-cap][data-pressed="1"] {
+  transform: translateY(var(--vk-t, 2.5px)) !important;
+  box-shadow: var(--vk-dn) !important;
+}
+
+/* Container styling reference */
+.vintage-keyboard-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 20px;
+  background: #0f0f0f;
+  box-sizing: border-box;
+}

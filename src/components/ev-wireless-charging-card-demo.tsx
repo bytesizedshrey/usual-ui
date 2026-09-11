@@ -2,35 +2,41 @@
 
 import { useRef, useState } from "react";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
-import NavigationMapDemo from "@/components/NavigationMapDemo";
+import { EVWirelessCharging } from "@/components/EVWirelessCharging";
 import SourceCodePopover from "@/components/SourceCodePopover";
-import { navigationMapDoc } from "@/lib/component-docs";
+import { evWirelessChargingDoc } from "@/lib/component-docs";
 
-export default function NavigationMapCardDemo() {
+export default function EVWirelessChargingCardDemo() {
   const [sourceOpen, setSourceOpen] = useState(false);
   const sourceAnchorRef = useRef<HTMLSpanElement>(null);
 
   return (
-    <CardContainer className="inter-var" containerClassName="py-0">
+    <CardContainer className="inter-var" containerClassName="py-0" maxTilt={6}>
       <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-96 h-full flex flex-col rounded-xl p-4 border  ">
         <CardItem
           translateZ="50"
           className="text-base font-bold text-neutral-600 dark:text-white"
         >
-          Navigation Map
+          EV Wireless Charging
         </CardItem>
         <CardItem
           as="p"
           translateZ="60"
           className="mt-1 max-w-xs text-xs text-neutral-500 dark:text-neutral-300"
         >
-          A compact skeuomorphic in-car navigation widget with a procedural map, live route, and tactile controls.
+          A premium wireless-charging status screen with a realistic 3D EV and a tactile control.
         </CardItem>
         <CardItem
           translateZ="100"
-          className="mt-3 flex flex-1 w-full items-center justify-center"
+          className="mt-3 flex flex-1 w-full items-center justify-center overflow-hidden rounded-xl"
         >
-          <NavigationMapDemo />
+          <div className="aspect-[4/3] w-full max-w-[300px]">
+            <EVWirelessCharging
+              className="h-full w-full"
+              rangeKm={127}
+              defaultBatteryLevel={32}
+            />
+          </div>
         </CardItem>
         <div className="mt-4 flex w-full items-center justify-center">
           <span
@@ -54,7 +60,7 @@ export default function NavigationMapCardDemo() {
 
       <SourceCodePopover
         anchorRef={sourceAnchorRef}
-        doc={navigationMapDoc}
+        doc={evWirelessChargingDoc}
         onOpenChange={setSourceOpen}
         open={sourceOpen}
       />
