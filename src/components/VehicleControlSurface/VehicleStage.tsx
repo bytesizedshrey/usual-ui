@@ -6,6 +6,7 @@ import { ContactShadows, Environment, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { cn } from "@/lib/utils";
+import { useInViewport } from "@/hooks/useInViewport";
 import { buildVehicle, disposeVehicle } from "./vehicleModel";
 
 const FOCUS = new THREE.Vector3(0.1, 0.58, 0);
@@ -125,6 +126,8 @@ export function VehicleStage({ className, paintColor = 0x121519, charging, sentr
   const pausedRef = useRef(paused);
   pausedRef.current = paused;
   const [ready, setReady] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const inViewport = useInViewport(wrapRef);
 
   useEffect(() => {
     const handle: InstanceHandle = { setPaused };
@@ -138,39 +141,39 @@ export function VehicleStage({ className, paintColor = 0x121519, charging, sentr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (paused || !ready) {
-    return <div className={cn("relative h-full w-full", className)} />;
-  }
+  const showCanvas = ready && !paused && inViewport;
 
   return (
-    <div className={cn("relative h-full w-full", className)}>
-      <Canvas
-        key={canvasKey}
-        shadows
-        camera={{ position: [3, 2.2, 4], fov: 45, near: 0.1, far: 100 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true }}
-        onCreated={({ gl }) => {
-          gl.toneMapping = THREE.ACESFilmicToneMapping;
-          gl.toneMappingExposure = 1.3;
-          const onContextLost = (event: Event) => {
-            event.preventDefault();
-            setTimeout(() => {
-              if (!pausedRef.current) setCanvasKey((k) => k + 1);
-            }, 50);
-          };
-          gl.domElement.addEventListener("webglcontextlost", onContextLost, false);
-        }}
-      >
-        <hemisphereLight args={[0x323a44, 0x060708, 0.75]} />
-        <directionalLight color={0xfff2e2} intensity={2.3} position={[3.2, 6.5, 4.2]} castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0004} />
-        <directionalLight color={0xbcd4ff} intensity={1.6} position={[-5.5, 3.2, -4.5]} />
-        <directionalLight color={0xffffff} intensity={0.3} position={[1.5, -2.5, 2.5]} />
-        <directionalLight color={0xd8e4ff} intensity={1.2} position={[6, 1.8, 6]} />
-        <VehicleScene paintColor={paintColor} charging={charging} sentry={sentry} flashToken={flashToken} />
-        <ContactShadows position={[0, 0.001, 0]} opacity={0.7} scale={9} blur={2.1} far={2.5} resolution={512} />
-        <Environment preset="city" environmentIntensity={0.9} />
-      </Canvas>
+    <div ref={wrapRef} className={cn("relative h-full w-full", className)}>
+      {showCanvas && (
+        <Canvas
+          key={canvasKey}
+          shadows
+          camera={{ position: [3, 2.2, 4], fov: 45, near: 0.1, far: 100 }}
+          dpr={[1, 2]}
+          gl={{ antialias: true }}
+          onCreated={({ gl }) => {
+            gl.toneMapping = THREE.ACESFilmicToneMapping;
+            gl.toneMappingExposure = 1.3;
+            const onContextLost = (event: Event) => {
+              event.preventDefault();
+              setTimeout(() => {
+                if (!pausedRef.current) setCanvasKey((k) => k + 1);
+              }, 50);
+            };
+            gl.domElement.addEventListener("webglcontextlost", onContextLost, false);
+          }}
+        >
+          <hemisphereLight args={[0x323a44, 0x060708, 0.75]} />
+          <directionalLight color={0xfff2e2} intensity={2.3} position={[3.2, 6.5, 4.2]} castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0004} />
+          <directionalLight color={0xbcd4ff} intensity={1.6} position={[-5.5, 3.2, -4.5]} />
+          <directionalLight color={0xffffff} intensity={0.3} position={[1.5, -2.5, 2.5]} />
+          <directionalLight color={0xd8e4ff} intensity={1.2} position={[6, 1.8, 6]} />
+          <VehicleScene paintColor={paintColor} charging={charging} sentry={sentry} flashToken={flashToken} />
+          <ContactShadows position={[0, 0.001, 0]} opacity={0.7} scale={9} blur={2.1} far={2.5} resolution={512} frames={1} />
+          <Environment preset="city" environmentIntensity={0.9} />
+        </Canvas>
+      )}
     </div>
   );
 }

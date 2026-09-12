@@ -10,6 +10,7 @@ import {
 } from "@react-three/drei";
 import * as THREE from "three";
 import { cn } from "@/lib/utils";
+import { useInViewport } from "@/hooks/useInViewport";
 
 const MODEL_URL = "/models/music-player-3d-enhanced.glb";
 
@@ -293,6 +294,8 @@ export function MusicPlayer3D({ className }: MusicPlayer3DProps) {
   // (e.g. the Source Code popover's enter transition) can hand R3F's event
   // setup a not-yet-attached DOM node. Waiting one frame avoids that race.
   const [ready, setReady] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const inViewport = useInViewport(wrapRef);
 
   useEffect(() => {
     const handle: InstanceHandle = { setPaused };
@@ -304,61 +307,61 @@ export function MusicPlayer3D({ className }: MusicPlayer3DProps) {
     return () => cancelAnimationFrame(id);
   }, []);
 
-  if (paused || !ready) {
-    return <div className={cn("relative w-full h-full", className)} />;
-  }
+  const showCanvas = ready && !paused && inViewport;
 
   return (
-    <div className={cn("relative w-full h-full", className)}>
+    <div ref={wrapRef} className={cn("relative w-full h-full", className)}>
       {/* NOTE: No `global` on PresentationControls — global hijacks all window pointer
           events which breaks the Source Code popover button in the parent card. */}
-      <Canvas
-        key={canvasKey}
-        camera={{ position: [0, 0, 5], fov: 40 }}
-        dpr={[1, 2]}
-        onCreated={({ gl }) => {
-          const onContextLost = (event: Event) => {
-            event.preventDefault();
-            // Only force a fresh context while this instance is still the
-            // active one — if it was paused (another instance took over) in
-            // the meantime, remounting here would race with that unmount.
-            setTimeout(() => {
-              if (!pausedRef.current) setCanvasKey((k) => k + 1);
-            }, 50);
-          };
-          gl.domElement.addEventListener("webglcontextlost", onContextLost, false);
-        }}
-      >
-        <ambientLight intensity={2.0} />
-        <spotLight
-          position={[5, 10, 5]}
-          angle={0.3}
-          penumbra={1}
-          intensity={3.0}
-          castShadow
-        />
-        <directionalLight position={[-5, 5, 10]} intensity={2.0} />
-        <directionalLight position={[5, -5, -5]} intensity={0.5} />
+      {showCanvas && (
+        <Canvas
+          key={canvasKey}
+          camera={{ position: [0, 0, 5], fov: 40 }}
+          dpr={[1, 2]}
+          onCreated={({ gl }) => {
+            const onContextLost = (event: Event) => {
+              event.preventDefault();
+              // Only force a fresh context while this instance is still the
+              // active one — if it was paused (another instance took over) in
+              // the meantime, remounting here would race with that unmount.
+              setTimeout(() => {
+                if (!pausedRef.current) setCanvasKey((k) => k + 1);
+              }, 50);
+            };
+            gl.domElement.addEventListener("webglcontextlost", onContextLost, false);
+          }}
+        >
+          <ambientLight intensity={2.0} />
+          <spotLight
+            position={[5, 10, 5]}
+            angle={0.3}
+            penumbra={1}
+            intensity={3.0}
+            castShadow
+          />
+          <directionalLight position={[-5, 5, 10]} intensity={2.0} />
+          <directionalLight position={[5, -5, -5]} intensity={0.5} />
 
-        <Suspense fallback={null}>
-          <PresentationControls
-            snap={true}
-            rotation={[0.15, -0.15, 0]}
-            polar={[-Math.PI / 6, Math.PI / 6]}
-            azimuth={[-Math.PI / 6, Math.PI / 6]}
-          >
-            <MusicPlayer3DScene />
-            <ContactShadows
-              position={[0, -1.25, 0]}
-              opacity={0.6}
-              scale={15}
-              blur={2.0}
-              far={4}
-            />
-          </PresentationControls>
-          <Environment preset="city" />
-        </Suspense>
-      </Canvas>
+          <Suspense fallback={null}>
+            <PresentationControls
+              snap={true}
+              rotation={[0.15, -0.15, 0]}
+              polar={[-Math.PI / 6, Math.PI / 6]}
+              azimuth={[-Math.PI / 6, Math.PI / 6]}
+            >
+              <MusicPlayer3DScene />
+              <ContactShadows
+                position={[0, -1.25, 0]}
+                opacity={0.6}
+                scale={15}
+                blur={2.0}
+                far={4}
+              />
+            </PresentationControls>
+            <Environment preset="city" />
+          </Suspense>
+        </Canvas>
+      )}
     </div>
   );
 }

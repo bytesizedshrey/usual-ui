@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
+import { PreviewStage } from "@/components/ui/preview-stage";
 import { VehicleControlSurface } from "@/components/VehicleControlSurface";
 import SourceCodePopover from "@/components/SourceCodePopover";
 import { vehicleControlSurfaceDoc } from "@/lib/component-docs";
@@ -12,7 +13,7 @@ export default function VehicleControlSurfaceCardDemo() {
 
   return (
     <CardContainer className="inter-var" containerClassName="py-0" maxTilt={6}>
-      <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-96 h-full flex flex-col rounded-xl p-4 border  ">
+      <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full min-w-0 sm:w-96 h-auto rounded-xl p-4 border  ">
         <CardItem
           translateZ="50"
           className="text-base font-bold text-neutral-600 dark:text-white"
@@ -28,15 +29,15 @@ export default function VehicleControlSurfaceCardDemo() {
         </CardItem>
         <CardItem
           translateZ="100"
-          className="mt-3 flex flex-1 w-full items-center justify-center overflow-hidden rounded-xl"
+          className="mt-3 flex w-full items-center justify-center"
         >
-          <div className="aspect-[3/5] w-full max-w-[260px]">
+          <PreviewStage aspectRatio={3 / 5} className="rounded-xl">
             <VehicleControlSurface
               className="h-full w-full"
               vehicleName="Vega EX"
               defaultBatteryLevel={82}
             />
-          </div>
+          </PreviewStage>
         </CardItem>
         <div className="mt-4 flex w-full items-center justify-center">
           <span

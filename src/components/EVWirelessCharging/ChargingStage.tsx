@@ -5,6 +5,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows } from "@react-three/drei";
 import * as THREE from "three";
 import { cn } from "@/lib/utils";
+import { useInViewport } from "@/hooks/useInViewport";
 import { buildCar, disposeCar } from "./evChargingModel";
 
 /** Procedural studio environment: a dark gradient with two soft overhead
@@ -233,6 +234,8 @@ export function ChargingStage({ className, paintColor = 0x3b444c, charging }: Ch
   const pausedRef = useRef(paused);
   pausedRef.current = paused;
   const [ready, setReady] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const inViewport = useInViewport(wrapRef);
 
   useEffect(() => {
     const handle: InstanceHandle = { setPaused };
@@ -246,37 +249,37 @@ export function ChargingStage({ className, paintColor = 0x3b444c, charging }: Ch
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (paused || !ready) {
-    return <div className={cn("relative h-full w-full", className)} />;
-  }
+  const showCanvas = ready && !paused && inViewport;
 
   return (
-    <div className={cn("relative h-full w-full", className)}>
-      <Canvas
-        key={canvasKey}
-        shadows
-        camera={{ position: [1.5, 1.85, 12.8], fov: 24, near: 0.1, far: 100 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
-        onCreated={({ gl }) => {
-          gl.toneMapping = THREE.ACESFilmicToneMapping;
-          gl.toneMappingExposure = 1.32;
-          const onContextLost = (event: Event) => {
-            event.preventDefault();
-            setTimeout(() => {
-              if (!pausedRef.current) setCanvasKey((k) => k + 1);
-            }, 50);
-          };
-          gl.domElement.addEventListener("webglcontextlost", onContextLost, false);
-        }}
-      >
-        <hemisphereLight args={[0x7d9cae, 0x1a2b26, 1.15]} />
-        <directionalLight color={0xdff0ff} intensity={2.7} position={[5.5, 8.5, 5.2]} castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0009} />
-        <directionalLight color={0x8fd6ff} intensity={0.5} position={[-7, 3.5, 4]} />
-        <spotLight color={0xa9f5ff} intensity={8} distance={14} angle={0.9} penumbra={0.8} decay={1.4} position={[-4.5, 3.2, -5]} />
-        <ChargingScene paintColor={paintColor} charging={charging} />
-        <ContactShadows position={[0, 0.001, 0]} opacity={0.75} scale={7} blur={2} far={2.2} resolution={512} />
-      </Canvas>
+    <div ref={wrapRef} className={cn("relative h-full w-full", className)}>
+      {showCanvas && (
+        <Canvas
+          key={canvasKey}
+          shadows
+          camera={{ position: [1.5, 1.85, 12.8], fov: 24, near: 0.1, far: 100 }}
+          dpr={[1, 2]}
+          gl={{ antialias: true, alpha: true }}
+          onCreated={({ gl }) => {
+            gl.toneMapping = THREE.ACESFilmicToneMapping;
+            gl.toneMappingExposure = 1.32;
+            const onContextLost = (event: Event) => {
+              event.preventDefault();
+              setTimeout(() => {
+                if (!pausedRef.current) setCanvasKey((k) => k + 1);
+              }, 50);
+            };
+            gl.domElement.addEventListener("webglcontextlost", onContextLost, false);
+          }}
+        >
+          <hemisphereLight args={[0x7d9cae, 0x1a2b26, 1.15]} />
+          <directionalLight color={0xdff0ff} intensity={2.7} position={[5.5, 8.5, 5.2]} castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0009} />
+          <directionalLight color={0x8fd6ff} intensity={0.5} position={[-7, 3.5, 4]} />
+          <spotLight color={0xa9f5ff} intensity={8} distance={14} angle={0.9} penumbra={0.8} decay={1.4} position={[-4.5, 3.2, -5]} />
+          <ChargingScene paintColor={paintColor} charging={charging} />
+          <ContactShadows position={[0, 0.001, 0]} opacity={0.75} scale={7} blur={2} far={2.2} resolution={512} frames={1} />
+        </Canvas>
+      )}
     </div>
   );
 }

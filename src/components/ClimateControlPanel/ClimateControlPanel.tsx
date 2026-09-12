@@ -252,7 +252,7 @@ export default function ClimateControlPanel({
       {...props}
     >
       <div ref={wrapRef} style={{ width: "100%", maxWidth: "100%", display: "flex", justifyContent: "center" }}>
-        <div style={{ transformOrigin: "top center", transform: `scale(${scale})`, width: PANEL_WIDTH }}>
+        <div style={{ transformOrigin: "center", transform: `scale(${scale})`, width: PANEL_WIDTH }}>
           <div ref={stageRef} style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div
               style={{

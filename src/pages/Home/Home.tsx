@@ -19,32 +19,32 @@ const Home = () => {
       <Hero />
       <MotionScrollWordRevealDemo />
       <section className="w-full bg-[#030304] px-6 py-12" id="showcase">
-        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-stretch justify-items-center gap-8 lg:grid-cols-3">
-          <Reveal className="h-full">
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-start justify-items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <Reveal>
             <ThreeDCardDemo />
           </Reveal>
-          <Reveal className="h-full" delay={0.16}>
+          <Reveal delay={0.08}>
             <MusicPlayer3DCardDemo />
           </Reveal>
-          <Reveal className="h-full" delay={0.24}>
+          <Reveal delay={0.16}>
             <NavigationMapCardDemo />
           </Reveal>
-          <Reveal className="h-full" delay={0.32}>
+          <Reveal delay={0.24}>
             <VintageKeyboardCardDemo />
           </Reveal>
-          <Reveal className="h-full" delay={0.4}>
+          <Reveal delay={0.32}>
             <SketchbookCardDemo />
           </Reveal>
-          <Reveal className="h-full" delay={0.48}>
+          <Reveal delay={0.4}>
             <SavingsChallengeCardCardDemo />
           </Reveal>
-          <Reveal className="h-full" delay={0.56}>
+          <Reveal delay={0.48}>
             <ClimateControlPanelCardDemo />
           </Reveal>
-          <Reveal className="h-full" delay={0.64}>
+          <Reveal delay={0.56}>
             <VehicleControlSurfaceCardDemo />
           </Reveal>
-          <Reveal className="h-full" delay={0.72}>
+          <Reveal delay={0.64}>
             <EVWirelessChargingCardDemo />
           </Reveal>
         </div>
@@ -64,14 +64,15 @@ const Home = () => {
         </div>
 
         <Reveal className="relative z-10 flex flex-col items-center justify-center gap-4 px-6 text-center">
-          <h2 className="text-3xl md:text-5xl font-semibold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">
-            built with code, not black boxes.
+          <h2 className="text-4xl md:text-7xl font-semibold leading-[0.95] tracking-[-0.03em] text-transparent bg-clip-text bg-gradient-to-b from-white to-white/30">
+            copy it. ship it.
+            <br />
+            <span className="italic font-light text-white/45">make it yours.</span>
           </h2>
 
           <div className="mt-8 flex gap-6 text-sm text-white/40">
-            <a href="#" className="hover:text-white/80 transition-colors">Components</a>
-            <a href="#" className="hover:text-white/80 transition-colors">Documentation</a>
-            <a href="#" className="hover:text-white/80 transition-colors">GitHub</a>
+            <a href="https://x.com/bytesizedshrey" target="_blank" rel="noopener noreferrer" className="hover:text-white/80 transition-colors">X</a>
+            <a href="https://github.com/bytesizedshrey" target="_blank" rel="noopener noreferrer" className="hover:text-white/80 transition-colors">GitHub</a>
           </div>
         </Reveal>
       </footer>
