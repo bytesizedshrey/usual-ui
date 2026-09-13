@@ -63,6 +63,16 @@ const Home = () => {
           />
         </div>
 
+        <Reveal className="pointer-events-none absolute inset-y-0 left-4 z-10 flex items-center sm:left-6 md:left-10 lg:left-14 xl:left-16">
+          <div className="h-4/5 w-11 sm:w-20 md:w-28 lg:w-48 xl:w-64">
+            <img
+              src="/usual-ui-mark-light.svg"
+              alt="usual-ui"
+              className="h-full w-full object-contain opacity-90"
+            />
+          </div>
+        </Reveal>
+
         <Reveal className="relative z-10 flex flex-col items-center justify-center gap-4 px-6 text-center">
           <h2 className="text-4xl md:text-7xl font-semibold leading-[0.95] tracking-[-0.03em] text-transparent bg-clip-text bg-gradient-to-b from-white to-white/30">
             copy it. ship it.
@@ -73,6 +83,16 @@ const Home = () => {
           <div className="mt-8 flex gap-6 text-sm text-white/40">
             <a href="https://x.com/bytesizedshrey" target="_blank" rel="noopener noreferrer" className="hover:text-white/80 transition-colors">X</a>
             <a href="https://github.com/bytesizedshrey" target="_blank" rel="noopener noreferrer" className="hover:text-white/80 transition-colors">GitHub</a>
+          </div>
+        </Reveal>
+
+        <Reveal className="pointer-events-none absolute inset-y-0 right-6 z-10 hidden items-center sm:flex md:right-10 lg:right-14 xl:right-16">
+          <div className="h-4/5 w-28 md:w-24 lg:w-44 xl:w-72">
+            <img
+              src="/usual-ui-wordmark-light.svg"
+              alt="usual-ui"
+              className="h-full w-full object-contain opacity-90"
+            />
           </div>
         </Reveal>
       </footer>
